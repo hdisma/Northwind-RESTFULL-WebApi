@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B32A8E4A-214C-479F-9701-8C2AAC4FD295}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.WebApi", "src\Northwind.WebApi\Northwind.WebApi.csproj", "{24A82A2B-0F3A-4360-AF12-C7008C612561}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.WebApi", "src\Northwind.WebApi\Northwind.WebApi.csproj", "{24A82A2B-0F3A-4360-AF12-C7008C612561}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Infrastructure", "src\Northwind.Infrastructure\Northwind.Infrastructure.csproj", "{E5A77525-020F-49DF-BF51-70A798E5C77A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Infrastructure", "src\Northwind.Infrastructure\Northwind.Infrastructure.csproj", "{E5A77525-020F-49DF-BF51-70A798E5C77A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Core", "src\Northwind.Core\Northwind.Core.csproj", "{38C95EDF-8C62-48D8-AFBB-8D6645C7281F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{E5A77525-020F-49DF-BF51-70A798E5C77A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5A77525-020F-49DF-BF51-70A798E5C77A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5A77525-020F-49DF-BF51-70A798E5C77A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38C95EDF-8C62-48D8-AFBB-8D6645C7281F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38C95EDF-8C62-48D8-AFBB-8D6645C7281F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38C95EDF-8C62-48D8-AFBB-8D6645C7281F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38C95EDF-8C62-48D8-AFBB-8D6645C7281F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -30,6 +36,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{24A82A2B-0F3A-4360-AF12-C7008C612561} = {B32A8E4A-214C-479F-9701-8C2AAC4FD295}
 		{E5A77525-020F-49DF-BF51-70A798E5C77A} = {B32A8E4A-214C-479F-9701-8C2AAC4FD295}
+		{38C95EDF-8C62-48D8-AFBB-8D6645C7281F} = {B32A8E4A-214C-479F-9701-8C2AAC4FD295}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4DD83CD2-9F14-4A7D-9AC5-8DAA63A3EA8F}
