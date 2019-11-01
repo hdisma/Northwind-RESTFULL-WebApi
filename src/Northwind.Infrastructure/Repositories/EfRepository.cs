@@ -1,46 +1,64 @@
-﻿using Northwind.Core.Interfaces;
-using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Northwind.Core.Interfaces;
+using Northwind.Infrastructure.DbContexts;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Northwind.Infrastructure.Repositories
 {
     public class EfRepository<T> : IAsyncRepository<T> where T : class
     {
-        public Task<T> AddAsync(T entity)
+        private readonly NorthwindDbContext _northwindDbContext;
+
+        public EfRepository(NorthwindDbContext northwindDbContext)
         {
-            throw new NotImplementedException();
+            _northwindDbContext = northwindDbContext;
         }
 
-        public Task<int> CountAsync(ISpecification<T> spec)
+        public async Task<T> AddAsync(T entity)
         {
-            throw new NotImplementedException();
+            await _northwindDbContext.Set<T>().AddAsync(entity);
+            await _northwindDbContext.SaveChangesAsync();
+
+            return entity;
         }
 
-        public Task DeleteAsync(T entity)
+        public async Task<int> CountAsync(ISpecification<T> spec)
         {
-            throw new NotImplementedException();
+            return await ApplySpecification(spec).CountAsync();
         }
 
-        public Task<IReadOnlyList<T>> GetAllAsync(ISpecification<T> spec)
+        public async Task DeleteAsync(T entity)
         {
-            throw new NotImplementedException();
+            _northwindDbContext.Set<T>().Remove(entity);
+            await _northwindDbContext.SaveChangesAsync();
         }
 
-        public Task<T> GetAsync(ISpecification<T> spec)
+        public async Task<IReadOnlyList<T>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _northwindDbContext.Set<T>().ToListAsync();
         }
 
-        public Task<T> GetByIdAsync(string id)
+        public async Task<IReadOnlyList<T>> GetAsync(ISpecification<T> spec)
         {
-            throw new NotImplementedException();
+            return await ApplySpecification(spec).ToListAsync();
         }
 
-        public Task UpdateAsync(T entity)
+        public async Task<T> GetByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            return await _northwindDbContext.Set<T>().FindAsync(id);
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+            _northwindDbContext.Entry(entity).State = EntityState.Modified;
+            await _northwindDbContext.SaveChangesAsync();
+        }
+
+        private IQueryable<T> ApplySpecification(ISpecification<T> spec)
+        {
+            return SpecificationEvaluator<T>.GetQuery(_northwindDbContext.Set<T>().AsQueryable(), spec);
         }
     }
 }
