@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,6 +16,7 @@ using Northwind.Core.Interfaces;
 using Northwind.Core.Services;
 using Northwind.Infrastructure.DbContexts;
 using Northwind.Infrastructure.Repositories;
+using Northwind.WebApi.Mappings;
 
 namespace Northwind.WebApi
 {
@@ -32,11 +34,13 @@ namespace Northwind.WebApi
         {
             var connectionString = Configuration["connectionStrings:northwindDb"];
 
-
+            
             services.AddControllers();
-            services.AddMvc()
-            // TODO: uncoment the line below to configure json serializer settings
-            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0).AddJsonOptions((setup) => { setup.JsonSerializerOptions.WriteIndented = true; });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                             .AddJsonOptions((setup) => 
+                             {
+                                 setup.JsonSerializerOptions.WriteIndented = true;
+                             });
 
             services.AddDbContext<NorthwindDbContext>(options =>
             {
@@ -48,10 +52,13 @@ namespace Northwind.WebApi
             services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             services.AddScoped<ICustomerService, CustomerService>();
+
+            // Add Automapper configuration.
+            services.AddAutoMapper(typeof(MapperProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {

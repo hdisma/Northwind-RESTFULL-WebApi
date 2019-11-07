@@ -12,6 +12,7 @@ namespace Northwind.WebApi.ViewModels
         public string CustomerID { get; set; }
         [Required]
         public string CompanyName { get; set; }
+        [Required]
         public string ContactName { get; set; }
         public string ContactTitle { get; set; }
         public string Address { get; set; }

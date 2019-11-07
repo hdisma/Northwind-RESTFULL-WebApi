@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Northwind.Core.Interfaces;
+using Northwind.WebApi.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +14,17 @@ namespace Northwind.WebApi.Controllers
     public class CustomerController : Controller
     {
         private readonly ICustomerService _customerService;
+        private readonly IMapper _mapper;
         
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerService customerService, IMapper mapper)
         {
             _customerService = customerService;
+            _mapper = mapper;
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var result = await _customerService.GetCustomerById(id);
+            var result = _mapper.Map<CustomerViewModel>(await _customerService.GetCustomerById(id));
 
             if (result == null) return NotFound();
 
