@@ -7,6 +7,7 @@ namespace Northwind.Core.Interfaces
 {
     public interface IAsyncRepository<T> where T : class
     {
+        Task<T> GetByIdAsync(int id);
         Task<T> GetByIdAsync(string id);
         Task<IReadOnlyList<T>> GetAllAsync();
         Task<IReadOnlyList<T>> GetAsync(ISpecification<T> spec);
