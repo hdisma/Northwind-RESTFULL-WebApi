@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Northwind.Core.Interfaces
 {
-    public interface ICustomerService
+    public interface ICustomerService : IService<Customer>
     {
-        Task<Customer> GetCustomerById(string id);
+
     }
 }

@@ -21,14 +21,24 @@ namespace Northwind.WebApi.Controllers
             _customerService = customerService;
             _mapper = mapper;
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var result = _mapper.Map<CustomerViewModel>(await _customerService.GetCustomerById(id));
+            var result = _mapper.Map<CustomerViewModel>(await _customerService.GetByIdAsync(id));
 
             if (result == null) return NotFound();
 
             return Ok(result);
         }
+        [HttpGet]
+        [Route("Count")]
+        public async Task<IActionResult> GetCustomersCount()
+        {
+            var result = await _customerService.CountAsync();
+
+            return Ok(result);
+        }
+
     }
 }
