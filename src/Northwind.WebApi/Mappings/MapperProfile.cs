@@ -12,7 +12,7 @@ namespace Northwind.WebApi.Mappings
     {
         public MapperProfile()
         {
-            CreateMap<Customer, CustomerViewModel>();
+            CreateMap<Customer, CustomerViewModel>().ReverseMap();
         }
     }
 }

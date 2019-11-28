@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Northwind.Core.Entities.Northwind;
 using Northwind.Core.Interfaces;
 using Northwind.WebApi.ViewModels;
 using System;
@@ -22,15 +23,26 @@ namespace Northwind.WebApi.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var customers = _mapper.Map<IReadOnlyList<CustomerViewModel>>(await _customerService.GetAllAsync());
+
+            if (customers == null || customers.Count == 0) return NotFound();
+
+            return Ok(customers);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var result = _mapper.Map<CustomerViewModel>(await _customerService.GetByIdAsync(id));
+            var customer = _mapper.Map<CustomerViewModel>(await _customerService.GetByIdAsync(id));
 
-            if (result == null) return NotFound();
+            if (customer == null) return NotFound();
 
-            return Ok(result);
+            return Ok(customer);
         }
+
         [HttpGet]
         [Route("Count")]
         public async Task<IActionResult> GetCustomersCount()
@@ -38,6 +50,15 @@ namespace Northwind.WebApi.Controllers
             var result = await _customerService.CountAsync();
 
             return Ok(result);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromBody]CustomerViewModel model)
+        {
+            var customer = _mapper.Map<Customer>(model);
+            await _customerService.DeleteAsync(customer);
+
+            return Ok();
         }
 
     }

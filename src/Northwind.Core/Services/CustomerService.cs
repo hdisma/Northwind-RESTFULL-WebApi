@@ -30,14 +30,14 @@ namespace Northwind.Core.Services
             return count;
         }
 
-        public Task DeleteAsync(Customer entity)
+        public async Task DeleteAsync(Customer entity)
         {
-            throw new NotImplementedException();
+            await _customerRepository.DeleteAsync(entity).ConfigureAwait(true);
         }
 
-        public Task<IReadOnlyList<Customer>> GetAllAsync()
+        public async Task<IReadOnlyList<Customer>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _customerRepository.GetAllAsync().ConfigureAwait(true);
         }
 
         public Task<IReadOnlyList<Customer>> GetAsync(ISpecification<Customer> spec)
