@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Northwind.Core.Interfaces
 {
-    public interface IAsyncRepository<T> where T : class
+    public interface IService<T> where T : class
     {
         Task<T> GetByIdAsync(int id);
         Task<T> GetByIdAsync(string id);
@@ -14,6 +14,6 @@ namespace Northwind.Core.Interfaces
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
-        Task<int> CountAsync(ISpecification<T> spec);
+        Task<int> CountAsync();
     }
 }

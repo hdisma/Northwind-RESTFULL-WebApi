@@ -45,11 +45,16 @@ namespace Northwind.Infrastructure.Repositories
             return await ApplySpecification(spec).ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(string id)
+        public async Task<T> GetByIdAsync(int id)
         {
             return await _northwindDbContext.Set<T>().FindAsync(id);
         }
 
+        public async Task<T> GetByIdAsync(string id)
+        {
+            return await _northwindDbContext.Set<T>().FindAsync(id);
+        }
+        
         public async Task UpdateAsync(T entity)
         {
             _northwindDbContext.Entry(entity).State = EntityState.Modified;
