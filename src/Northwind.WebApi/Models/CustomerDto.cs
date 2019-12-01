@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace Northwind.WebApi.ViewModels
+namespace Northwind.WebApi.Models
 {
-    public class CustomerViewModel
+    public class CustomerDto
     {
         public string CustomerID { get; set; }
         [Required]

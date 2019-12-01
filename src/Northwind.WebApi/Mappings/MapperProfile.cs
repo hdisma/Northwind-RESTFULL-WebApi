@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Northwind.Core.Entities.Northwind;
-using Northwind.WebApi.ViewModels;
+using Northwind.WebApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace Northwind.WebApi.Mappings
     {
         public MapperProfile()
         {
-            CreateMap<Customer, CustomerViewModel>().ReverseMap();
+            CreateMap<Customer, CustomerDto>().ReverseMap();
         }
     }
 }

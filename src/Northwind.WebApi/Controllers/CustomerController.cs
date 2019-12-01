@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Northwind.Core.Entities.Northwind;
 using Northwind.Core.Interfaces;
-using Northwind.WebApi.ViewModels;
+using Northwind.WebApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace Northwind.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCustomers()
         {
-            var customers = _mapper.Map<IReadOnlyList<CustomerViewModel>>(await _customerService.GetAllAsync());
+            var customers = _mapper.Map<IReadOnlyList<CustomerDto>>(await _customerService.GetAllAsync());
 
             if (customers == null || customers.Count == 0) return NotFound();
 
@@ -36,7 +36,7 @@ namespace Northwind.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomer(string id)
         {
-            var customer = _mapper.Map<CustomerViewModel>(await _customerService.GetByIdAsync(id));
+            var customer = _mapper.Map<CustomerDto>(await _customerService.GetByIdAsync(id));
 
             if (customer == null) return NotFound();
 
@@ -53,7 +53,7 @@ namespace Northwind.WebApi.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteCustomer([FromBody]CustomerViewModel model)
+        public async Task<IActionResult> DeleteCustomer([FromBody]CustomerDto model)
         {
             var customer = _mapper.Map<Customer>(model);
             await _customerService.DeleteAsync(customer);
