@@ -11,20 +11,20 @@ using System.Threading.Tasks;
 namespace Northwind.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class CustomerController : Controller
+    [Route("api/customers")]
+    public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
         private readonly IMapper _mapper;
         
         public CustomerController(ICustomerService customerService, IMapper mapper)
         {
-            _customerService = customerService;
-            _mapper = mapper;
+            _customerService = customerService ?? throw new ArgumentNullException(nameof(customerService));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetCustomers()
         {
             var customers = _mapper.Map<IReadOnlyList<CustomerViewModel>>(await _customerService.GetAllAsync());
 
@@ -34,7 +34,7 @@ namespace Northwind.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> GetCustomer(string id)
         {
             var customer = _mapper.Map<CustomerViewModel>(await _customerService.GetByIdAsync(id));
 
@@ -53,7 +53,7 @@ namespace Northwind.WebApi.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody]CustomerViewModel model)
+        public async Task<IActionResult> DeleteCustomer([FromBody]CustomerViewModel model)
         {
             var customer = _mapper.Map<Customer>(model);
             await _customerService.DeleteAsync(customer);

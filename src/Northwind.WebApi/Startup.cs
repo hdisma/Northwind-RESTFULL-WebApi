@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,13 +35,11 @@ namespace Northwind.WebApi
         {
             var connectionString = Configuration["connectionStrings:northwindDb"];
 
-            
-            services.AddControllers();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-                             .AddJsonOptions((setup) => 
-                             {
-                                 setup.JsonSerializerOptions.WriteIndented = true;
-                             });
+
+            services.AddControllers(AppDomainSetup =>
+            {
+                AppDomainSetup.ReturnHttpNotAcceptable = true;
+            }).AddXmlSerializerFormatters();
 
             services.AddDbContext<NorthwindDbContext>(options =>
             {
