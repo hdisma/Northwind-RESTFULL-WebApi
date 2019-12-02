@@ -1,12 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel.DataAnnotations;
 
 namespace Northwind.Core.Entities.Northwind
 {
     public class Customer
     {
+        [Key]
         [MaxLength(5)]
+        [Required]
         public string CustomerID { get; set; }
         [MaxLength(40)]
+        [Required]
         public string CompanyName { get; set; }
         [MaxLength(30)]
         public string ContactName { get; set; }
@@ -26,5 +31,6 @@ namespace Northwind.Core.Entities.Northwind
         public string Phone { get; set; }
         [MaxLength(24)]
         public string Fax { get; set; }
+        public ICollection<Order> Orders { get; set; }
     }
 }

@@ -6,7 +6,9 @@ namespace Northwind.Core.Entities.Northwind
 {
     public class Order
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required]
         public int OrderID { get; set; }
         [MaxLength(5)]
         public string CustomerID { get; set; }
