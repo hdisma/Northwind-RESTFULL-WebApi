@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Northwind.Core.Specification
 {
-    public class CustomersCountSpecification : Specification<Customer>
+    public class CustomersCountSpecification : BaseSpecification<Customer>
     {
         public CustomersCountSpecification(Expression<Func<Customer, bool>> criteria) : base(criteria)
         {

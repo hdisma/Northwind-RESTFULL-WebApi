@@ -5,9 +5,9 @@ using System.Linq.Expressions;
 
 namespace Northwind.Core.Specification
 {
-    public class Specification<T> : ISpecification<T>
+    public class BaseSpecification<T> : ISpecification<T>
     {
-        public Specification(Expression<Func<T, bool>> criteria)
+        public BaseSpecification(Expression<Func<T, bool>> criteria)
         {
             Criteria = criteria;
         }
