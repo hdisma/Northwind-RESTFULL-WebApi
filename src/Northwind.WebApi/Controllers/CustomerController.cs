@@ -61,5 +61,18 @@ namespace Northwind.WebApi.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("exists")]
+        public async Task<IActionResult> Exists([FromBody]CustomerDto model)
+        {
+            var customer = _mapper.Map<Customer>(model);
+            
+            var result = await _customerService.Exists(customer);
+
+            if(result) return Ok(result);
+
+            return NotFound();
+        }
+
     }
 }

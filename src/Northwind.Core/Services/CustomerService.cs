@@ -55,6 +55,11 @@ namespace Northwind.Core.Services
             return await _customerRepository.GetByIdAsync(id).ConfigureAwait(true);
         }
 
+        public async Task<bool> Exists(Customer entity)
+        {
+            return await _customerRepository.Exists(entity).ConfigureAwait(true);
+        }
+
         public Task UpdateAsync(Customer entity)
         {
             throw new NotImplementedException();

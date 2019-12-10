@@ -61,6 +61,11 @@ namespace Northwind.Infrastructure.Repositories
             await _northwindDbContext.SaveChangesAsync();
         }
 
+        public async Task<bool> Exists(T entity)
+        {
+            return await _northwindDbContext.Set<T>().AnyAsync(n => n == entity);
+        }
+
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
             return SpecificationEvaluator<T>.GetQuery(_northwindDbContext.Set<T>().AsQueryable(), spec);

@@ -53,7 +53,7 @@ namespace Northwind.WebApi
             services.AddScoped<ICustomerService, CustomerService>();
 
             // Add Automapper configuration.
-            services.AddAutoMapper(typeof(MapperProfile));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
