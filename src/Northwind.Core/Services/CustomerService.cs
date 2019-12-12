@@ -45,9 +45,9 @@ namespace Northwind.Core.Services
             throw new NotImplementedException();
         }
 
-        public Task<Customer> GetByIdAsync(int id)
+        public async Task<Customer> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _customerRepository.GetByIdAsync(id).ConfigureAwait(true);
         }
 
         public async Task<Customer> GetByIdAsync(string id)
@@ -60,9 +60,9 @@ namespace Northwind.Core.Services
             return await _customerRepository.Exists(entity).ConfigureAwait(true);
         }
 
-        public Task UpdateAsync(Customer entity)
+        public async Task UpdateAsync(Customer entity)
         {
-            throw new NotImplementedException();
+            await _customerRepository.UpdateAsync(entity).ConfigureAwait(true);
         }
     }
 }

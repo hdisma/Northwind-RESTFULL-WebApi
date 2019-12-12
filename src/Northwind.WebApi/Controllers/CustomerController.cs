@@ -52,6 +52,13 @@ namespace Northwind.WebApi.Controllers
             return Ok(result);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> UpdateCustomer([FromBody]CustomerDto model)
+        {
+            await _customerService.UpdateAsync(_mapper.Map<Customer>(model));
+            return Ok();
+        }
+
         [HttpDelete]
         public async Task<IActionResult> DeleteCustomer([FromBody]CustomerDto model)
         {

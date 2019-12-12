@@ -13,6 +13,7 @@ namespace Northwind.WebApi.Mappings
         public MapperProfile()
         {
             CreateMap<Customer, CustomerDto>().ReverseMap();
+            CreateMap<Order, OrderDto>().ReverseMap();
         }
     }
 }

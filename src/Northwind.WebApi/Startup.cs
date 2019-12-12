@@ -49,8 +49,10 @@ namespace Northwind.WebApi
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IOrderService, OrderService>();
 
             // Add Automapper configuration.
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
