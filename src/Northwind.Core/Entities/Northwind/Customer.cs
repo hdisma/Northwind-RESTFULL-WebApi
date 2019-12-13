@@ -31,6 +31,6 @@ namespace Northwind.Core.Entities.Northwind
         public string Phone { get; set; }
         [MaxLength(24)]
         public string Fax { get; set; }
-        public ICollection<Order> Orders { get; set; }
+        public List<Order> Orders { get; private set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Northwind.Infrastructure.DbContexts
         }
 
         public virtual DbSet<Customer> Customers { get; set; }
-
+        public virtual DbSet<Order> Orders { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 

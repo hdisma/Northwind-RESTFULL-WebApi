@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Northwind.Core.Entities.Northwind;
@@ -9,10 +10,14 @@ namespace Northwind.Core.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly ICustomerRepository _customerRepository;
         
-        public OrderService(IOrderRepository orderRepository)
+        public OrderService(IOrderRepository orderRepository, ICustomerRepository customerRepository)
         {
-            _orderRepository = orderRepository;
+            _orderRepository = orderRepository
+                               ?? throw new ArgumentNullException(nameof(orderRepository));
+            _customerRepository = customerRepository
+                                  ?? throw new ArgumentNullException(nameof(customerRepository));
         }
 
         public async Task<Order> AddAsync(Order entity)
@@ -36,6 +41,11 @@ namespace Northwind.Core.Services
             return await _orderRepository.Exists(entity).ConfigureAwait(true);
         }
 
+        public async Task<bool> CustomerExists(string customerId)
+        {
+            return await _customerRepository.Exists(customerId).ConfigureAwait(true);
+        }
+
         public async Task<IReadOnlyList<Order>> GetAllAsync()
         {
             return await _orderRepository.GetAllAsync().ConfigureAwait(true);
@@ -54,6 +64,13 @@ namespace Northwind.Core.Services
         public async Task<Order> GetByIdAsync(string id)
         {
             return await _orderRepository.GetByIdAsync(id).ConfigureAwait(true);
+        }
+
+        public async Task<IReadOnlyCollection<Order>> GetByCustomerId(string customerId)
+        {
+            var orderForCustomerSpecification = new OrderForCustomerSpecification(x => x.CustomerID == customerId);
+
+            return await _orderRepository.GetAsync(orderForCustomerSpecification).ConfigureAwait(true);
         }
 
         public async Task UpdateAsync(Order entity)

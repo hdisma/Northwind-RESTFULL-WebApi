@@ -15,6 +15,8 @@ namespace Northwind.Core.Interfaces
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
         Task<bool> Exists(T entity);
+        Task<bool> Exists(int id);
+        Task<bool> Exists(string id);
         Task<int> CountAsync(ISpecification<T> spec);
     }
 }

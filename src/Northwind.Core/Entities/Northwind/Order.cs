@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Northwind.Core.Entities.Northwind
 {
+    //[Table(name: "Orders")]
     public class Order
     {
         [Key]
@@ -12,6 +13,8 @@ namespace Northwind.Core.Entities.Northwind
         public int OrderID { get; set; }
         [MaxLength(5)]
         public string CustomerID { get; set; }
+        [ForeignKey("CustomerID")]
+        public Customer Customer { get; set; }
         public int? EmployeeID { get; set; }
         public DateTime? OrderDate { get; set; }
         public DateTime? RequiredDate { get; set; }

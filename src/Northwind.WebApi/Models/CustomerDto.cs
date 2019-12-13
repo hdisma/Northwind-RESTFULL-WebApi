@@ -22,5 +22,6 @@ namespace Northwind.WebApi.Models
         public string Country { get; set; }
         public string Phone { get; set; }
         public string Fax { get; set; }
+        public ICollection<OrderDto> Orders { get; set; }
     }
 }
