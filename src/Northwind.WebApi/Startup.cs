@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -68,6 +70,14 @@ namespace Northwind.WebApi
             else
             {
                 app.UseHsts();
+                app.UseExceptionHandler((options) =>
+                {
+                    options.Run(async context => 
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        await context.Response.WriteAsync("An unespected fault happened. Try again later!");
+                    });
+                });
             }
 
             app.UseHttpsRedirection();

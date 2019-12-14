@@ -1,8 +1,10 @@
 ﻿using Northwind.Core.Entities.Northwind;
 using Northwind.Core.Interfaces;
+using Northwind.Core.ResourceParameters;
 using Northwind.Core.Specification;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,6 +40,31 @@ namespace Northwind.Core.Services
         public async Task<IReadOnlyList<Customer>> GetAllAsync()
         {
             return await _customerRepository.GetAllAsync().ConfigureAwait(true);
+        }
+
+        public async Task<IReadOnlyList<Customer>> GetAllAsync(CustomerResourceParameters customerResourceParameters)
+        {
+            if (customerResourceParameters == null)
+                throw new ArgumentNullException(nameof(customerResourceParameters));
+
+            IQueryable<Customer> collection = (await _customerRepository.GetAllAsync().ConfigureAwait(true)).AsQueryable();
+
+            if (string.IsNullOrEmpty(customerResourceParameters.CompanyNameFilter)
+                && string.IsNullOrWhiteSpace(customerResourceParameters.CompanyNameFilter)
+                && string.IsNullOrWhiteSpace(customerResourceParameters.SearchQuery)
+                && string.IsNullOrEmpty(customerResourceParameters.SearchQuery))
+                return collection.ToList();
+
+            if (!string.IsNullOrEmpty(customerResourceParameters.CompanyNameFilter))
+                collection = collection.Where(q => q.CompanyName.Contains(customerResourceParameters.CompanyNameFilter.Trim()));
+
+            if (!string.IsNullOrEmpty(customerResourceParameters.SearchQuery))
+                collection = collection.Where(q => q.CompanyName.Contains(customerResourceParameters.SearchQuery)
+                                                   || q.Address.Contains(customerResourceParameters.SearchQuery)
+                                                   || q.ContactName.Contains(customerResourceParameters.SearchQuery)
+                                                   || q.Phone.Contains(customerResourceParameters.SearchQuery));
+
+            return collection.ToList();
         }
 
         public Task<IReadOnlyList<Customer>> GetAsync(ISpecification<Customer> spec)

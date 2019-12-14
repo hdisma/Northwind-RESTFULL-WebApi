@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Northwind.Core.Entities.Northwind;
 using Northwind.Core.Interfaces;
+using Northwind.Core.ResourceParameters;
 using Northwind.WebApi.Models;
 using System;
 using System.Collections.Generic;
@@ -24,9 +25,10 @@ namespace Northwind.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCustomers()
+        [HttpHead]
+        public async Task<IActionResult> GetCustomers([FromQuery] CustomerResourceParameters customerResourceParameters)
         {
-            var customers = _mapper.Map<IReadOnlyList<CustomerDto>>(await _customerService.GetAllAsync());
+            var customers = _mapper.Map<IReadOnlyList<CustomerDto>>(await _customerService.GetAllAsync(customerResourceParameters));
 
             if (customers == null || customers.Count == 0) return NotFound();
 
@@ -34,6 +36,7 @@ namespace Northwind.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [HttpHead]
         public async Task<IActionResult> GetCustomer(string id)
         {
             var customer = _mapper.Map<CustomerDto>(await _customerService.GetByIdAsync(id));
@@ -44,6 +47,7 @@ namespace Northwind.WebApi.Controllers
         }
 
         [HttpGet]
+        [HttpHead]
         [Route("Count")]
         public async Task<IActionResult> GetCustomersCount()
         {
@@ -53,6 +57,7 @@ namespace Northwind.WebApi.Controllers
         }
 
         [HttpPut]
+        [HttpHead]
         public async Task<IActionResult> UpdateCustomer([FromBody]CustomerDto model)
         {
             await _customerService.UpdateAsync(_mapper.Map<Customer>(model));
@@ -60,6 +65,7 @@ namespace Northwind.WebApi.Controllers
         }
 
         [HttpDelete]
+        [HttpHead]
         public async Task<IActionResult> DeleteCustomer([FromBody]CustomerDto model)
         {
             var customer = _mapper.Map<Customer>(model);
@@ -69,6 +75,7 @@ namespace Northwind.WebApi.Controllers
         }
 
         [HttpGet]
+        [HttpHead]
         [Route("exists")]
         public async Task<IActionResult> Exists([FromBody]CustomerDto model)
         {

@@ -1,4 +1,5 @@
 ﻿using Northwind.Core.Entities.Northwind;
+using Northwind.Core.ResourceParameters;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Northwind.Core.Interfaces
 {
     public interface ICustomerService : IService<Customer>
     {
-
+        Task<IReadOnlyList<Customer>> GetAllAsync(CustomerResourceParameters customerResourceParameters);
     }
 }
