@@ -37,5 +37,19 @@ namespace Northwind.WebApi.Controllers
             return Ok(orders);
         }
 
+        [HttpGet]
+        [Route("{orderId}")]
+        public async Task<IActionResult> GetOrderForCustomer(string customerId, int orderId)
+        {
+            if (!await _orderService.CustomerExists(customerId))
+                return NotFound("Customer Not Found!");
+
+            var order = _mapper.Map<OrderDto>(await _orderService.GetByIdAsync(orderId));
+
+            if (order == null) return NotFound("The order for this customer was not found!");
+
+            return Ok(order);
+        }
+
     }
 }
