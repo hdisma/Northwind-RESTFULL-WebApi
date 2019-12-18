@@ -35,7 +35,7 @@ namespace Northwind.WebApi.Controllers
             return Ok(customers);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetCustomer")]
         [HttpHead]
         public async Task<IActionResult> GetCustomer(string id)
         {
@@ -54,6 +54,18 @@ namespace Northwind.WebApi.Controllers
             var result = await _customerService.CountAsync();
 
             return Ok(result);
+        }
+
+        [HttpPost]
+        [HttpHead]
+        public async Task<IActionResult> AddCustomer([FromBody] CustomerForCreationDto model)
+        {
+            var customer = _mapper.Map<Customer>(model);
+            var customerAdded =  _mapper.Map<CustomerDto>(await _customerService.AddAsync(customer));
+
+            return CreatedAtRoute("GetCustomer",
+                                  new { id = customerAdded.CustomerID },
+                                  customerAdded);
         }
 
         [HttpPut]
