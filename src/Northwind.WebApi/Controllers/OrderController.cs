@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Northwind.Core.Entities.Northwind;
 using Northwind.Core.Interfaces;
 using Northwind.WebApi.Models;
 using System;
@@ -38,7 +39,7 @@ namespace Northwind.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("{orderId}")]
+        [Route("{orderId}", Name = "GetOrderForCustomer")]
         public async Task<IActionResult> GetOrderForCustomer(string customerId, int orderId)
         {
             if (!await _orderService.CustomerExists(customerId))
@@ -49,6 +50,19 @@ namespace Northwind.WebApi.Controllers
             if (order == null) return NotFound("The order for this customer was not found!");
 
             return Ok(order);
+        }
+
+        public async Task<IActionResult> AddOrderForCustomer(string customerId, [FromBody] OrderForCreationDto model)
+        {
+            if (!await _orderService.CustomerExists(customerId))
+                return NotFound("Customer Not Found!");
+
+            var order = _mapper.Map<Order>(model);
+            var orderCreated = _mapper.Map<OrderDto>(await _orderService.AddAsync(order));
+
+            return CreatedAtRoute("GetOrderForCustomer",
+                                  new { customerId, orderId = orderCreated.OrderID },
+                                  orderCreated);
         }
 
     }
