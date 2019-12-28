@@ -24,6 +24,11 @@ namespace Northwind.Core.Services
             return await _customerRepository.AddAsync(entity).ConfigureAwait(true);
         }
 
+        public async Task<IReadOnlyList<Customer>> AddRangeAsync(IReadOnlyList<Customer> entityCollection)
+        {
+            return await _customerRepository.AddRangeAsync(entityCollection).ConfigureAwait(true);
+        }
+
         public async Task<int> CountAsync()
         {
             var customerCountSpec = new CustomersCountSpecification();
@@ -80,6 +85,16 @@ namespace Northwind.Core.Services
         public async Task<Customer> GetByIdAsync(string id)
         {
             return await _customerRepository.GetByIdAsync(id).ConfigureAwait(true);
+        }
+
+        public async Task<IReadOnlyList<Customer>> GetByIdsAsync(IReadOnlyList<int> ids)
+        {
+            return await _customerRepository.GetByIdsAsync(ids).ConfigureAwait(true);
+        }
+
+        public async Task<IReadOnlyList<Customer>> GetByIdsAsync(IReadOnlyList<string> ids)
+        {
+            return await _customerRepository.GetByIdsAsync(ids).ConfigureAwait(true);
         }
 
         public async Task<bool> Exists(Customer entity)

@@ -25,6 +25,11 @@ namespace Northwind.Core.Services
             return await _orderRepository.AddAsync(entity).ConfigureAwait(true);
         }
 
+        public async Task<IReadOnlyList<Order>> AddRangeAsync(IReadOnlyList<Order> entityCollection)
+        {
+            return await _orderRepository.AddRangeAsync(entityCollection).ConfigureAwait(true);
+        }
+
         public async Task<int> CountAsync()
         {
             var orderCountSpec = new OrderCountSpecification();
@@ -64,6 +69,16 @@ namespace Northwind.Core.Services
         public async Task<Order> GetByIdAsync(string id)
         {
             return await _orderRepository.GetByIdAsync(id).ConfigureAwait(true);
+        }
+
+        public async Task<IReadOnlyList<Order>> GetByIdsAsync(IReadOnlyList<int> ids)
+        {
+            return await _orderRepository.GetByIdsAsync(ids).ConfigureAwait(true);
+        }
+
+        public async Task<IReadOnlyList<Order>> GetByIdsAsync(IReadOnlyList<string> ids)
+        {
+            return await _orderRepository.GetByIdsAsync(ids).ConfigureAwait(true);
         }
 
         public async Task<IReadOnlyCollection<Order>> GetByCustomerId(string customerId)

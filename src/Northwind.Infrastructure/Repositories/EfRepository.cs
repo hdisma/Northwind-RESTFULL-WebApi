@@ -24,6 +24,14 @@ namespace Northwind.Infrastructure.Repositories
             return entity;
         }
 
+        public async Task<IReadOnlyList<T>> AddRangeAsync(IReadOnlyList<T> entityCollection)
+        {
+            await _northwindDbContext.Set<T>().AddRangeAsync(entityCollection);
+            await _northwindDbContext.SaveChangesAsync();
+
+            return entityCollection;
+        }
+
         public async Task<int> CountAsync(ISpecification<T> spec)
         {
             return await ApplySpecification(spec).CountAsync();
@@ -54,7 +62,35 @@ namespace Northwind.Infrastructure.Repositories
         {
             return await _northwindDbContext.Set<T>().FindAsync(id);
         }
-        
+
+        public async Task<IReadOnlyList<T>> GetByIdsAsync(IReadOnlyList<int> ids)
+        {
+            var entities = new List<T>();
+
+            foreach (var id in ids)
+            {
+                var e = await _northwindDbContext.Set<T>().FindAsync(id);
+
+                entities.Add(e);
+            }
+
+            return entities;
+        }
+
+        public async Task<IReadOnlyList<T>> GetByIdsAsync(IReadOnlyList<string> ids)
+        {
+            var entities = new List<T>();
+
+            foreach (var id in ids)
+            {
+                var e = await _northwindDbContext.Set<T>().FindAsync(id);
+
+                entities.Add(e);
+            }
+
+            return entities;
+        }
+
         public async Task UpdateAsync(T entity)
         {
             _northwindDbContext.Entry(entity).State = EntityState.Modified;
