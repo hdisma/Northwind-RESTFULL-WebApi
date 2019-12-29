@@ -100,5 +100,13 @@ namespace Northwind.WebApi.Controllers
             return NotFound();
         }
 
+        [HttpOptions]
+        public IActionResult GetCustomersOptions()
+        {
+            Response.Headers.Add("Allow", "GET, POST, DELETE, PUT, OPTIONS");
+
+            return Ok();
+        }
+
     }
 }

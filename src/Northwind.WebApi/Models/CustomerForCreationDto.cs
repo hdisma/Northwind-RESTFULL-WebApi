@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Northwind.WebApi.ValidationAttributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace Northwind.WebApi.Models
 {
-    public class CustomerForCreationDto
+    [CustomerContactNameMustBeDifferentFromContactName(
+        ErrorMessage = "The provided contactTitle should be different from the title.")]
+    public class CustomerForCreationDto //: IValidatableObject
     {
         public string CustomerID { get; set; }
         [Required]
@@ -22,5 +25,12 @@ namespace Northwind.WebApi.Models
         public string Phone { get; set; }
         public string Fax { get; set; }
         public ICollection<OrderForCreationDto> Orders { get; set; } = new List<OrderForCreationDto>();
+
+        //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        //{
+        //    if (ContactName == ContactTitle) yield return new ValidationResult(
+        //        "The provided contactTitle should be different from the title.",
+        //        new[] { "CustomerForCreationDto" });
+        //}
     }
 }

@@ -41,7 +41,30 @@ namespace Northwind.WebApi
             services.AddControllers(AppDomainSetup =>
             {
                 AppDomainSetup.ReturnHttpNotAcceptable = true;
-            }).AddXmlSerializerFormatters();
+            })
+            .AddXmlDataContractSerializerFormatters()
+            .ConfigureApiBehaviorOptions(setupAction =>
+            {
+                setupAction.InvalidModelStateResponseFactory = context =>
+                {
+                    var problemDetails = new ValidationProblemDetails(context.ModelState)
+                    {
+                        Type = "https://tools.ietf.org/html/rfc3986",
+                        Title = "One or more model validation errors occurred.",
+                        Status = StatusCodes.Status422UnprocessableEntity,
+                        Detail = "See the errors property for details",
+                        Instance = context.HttpContext.Request.Path
+                    };
+
+                    problemDetails.Extensions.Add("traceId", context.HttpContext.TraceIdentifier);
+
+                    return new UnprocessableEntityObjectResult(problemDetails)
+                    {
+                        ContentTypes = { "application/problem+json" }
+                    };
+
+                };
+            });
 
             services.AddDbContext<NorthwindDbContext>(options =>
             {
