@@ -48,9 +48,14 @@ namespace Northwind.Infrastructure.Repositories
             return await _northwindDbContext.Set<T>().ToListAsync();
         }
 
-        public async Task<IReadOnlyList<T>> GetAsync(ISpecification<T> spec)
+        public async Task<IReadOnlyList<T>> GetAllAsync(ISpecification<T> spec)
         {
             return await ApplySpecification(spec).ToListAsync();
+        }
+
+        public async Task<T> GetAsync(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).SingleOrDefaultAsync();
         }
 
         public async Task<T> GetByIdAsync(int id)

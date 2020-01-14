@@ -16,6 +16,7 @@ namespace Northwind.WebApi.Mappings
             CreateMap<Customer, CustomerForCreationDto>().ReverseMap();
             CreateMap<Order, OrderDto>().ReverseMap();
             CreateMap<Order, OrderForCreationDto>().ReverseMap();
+            CreateMap<Order, OrderForUpdateDto>().ReverseMap();
         }
     }
 }

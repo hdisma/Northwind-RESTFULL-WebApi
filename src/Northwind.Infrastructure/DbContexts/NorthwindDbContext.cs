@@ -15,9 +15,21 @@ namespace Northwind.Infrastructure.DbContexts
 
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //modelBuilder.Entity<OrderDetail>()
+            //            .HasOne(o => o.Order)
+            //            .WithMany(t => t.OrderDetails)
+            //            .IsRequired()
+            //            .OnDelete(deleteBehavior: DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<OrderDetail>()
+                        .HasKey(o => new { o.OrderID, o.ProductID });
         }
     }
 }

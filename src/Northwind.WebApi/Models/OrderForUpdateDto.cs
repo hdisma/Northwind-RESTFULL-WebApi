@@ -1,21 +1,18 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Northwind.Core.Entities.Northwind
+namespace Northwind.WebApi.Models
 {
-    //[Table(name: "Orders")]
-    public class Order
+    public class OrderForUpdateDto
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         public int? OrderID { get; set; }
         [MaxLength(5)]
         public string CustomerID { get; set; }
-        [ForeignKey("CustomerID")]
-        public Customer Customer { get; set; }
         public int? EmployeeID { get; set; }
         public DateTime? OrderDate { get; set; }
         public DateTime? RequiredDate { get; set; }
@@ -34,6 +31,5 @@ namespace Northwind.Core.Entities.Northwind
         public string ShipPostalCode { get; set; }
         [MaxLength(15)]
         public string ShipCountry { get; set; }
-        public List<OrderDetail> OrderDetails { get; private set; }
     }
 }

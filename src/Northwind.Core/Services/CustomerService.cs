@@ -102,6 +102,11 @@ namespace Northwind.Core.Services
             return await _customerRepository.Exists(entity).ConfigureAwait(true);
         }
 
+        public async Task<bool> Exists(string customerId)
+        {
+            return await _customerRepository.Exists(customerId).ConfigureAwait(true);
+        }
+
         public async Task UpdateAsync(Customer entity)
         {
             await _customerRepository.UpdateAsync(entity).ConfigureAwait(true);

@@ -10,5 +10,7 @@ namespace Northwind.Core.Interfaces
     public interface ICustomerService : IService<Customer>
     {
         Task<IReadOnlyList<Customer>> GetAllAsync(CustomerResourceParameters customerResourceParameters);
+        Task<bool> Exists(string customerId);
+
     }
 }

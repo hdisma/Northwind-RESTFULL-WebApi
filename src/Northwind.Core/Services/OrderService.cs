@@ -22,6 +22,8 @@ namespace Northwind.Core.Services
 
         public async Task<Order> AddAsync(Order entity)
         {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity.OrderID != null) entity.OrderID = null;
             return await _orderRepository.AddAsync(entity).ConfigureAwait(true);
         }
 
@@ -84,6 +86,13 @@ namespace Northwind.Core.Services
         public async Task<IReadOnlyCollection<Order>> GetByCustomerId(string customerId)
         {
             var orderForCustomerSpecification = new OrderForCustomerSpecification(x => x.CustomerID == customerId);
+
+            return await _orderRepository.GetAllAsync(orderForCustomerSpecification).ConfigureAwait(true);
+        }
+
+        public async Task<Order> GetByCustomerIdAndOrderId(string customerId, int orderId)
+        {
+            var orderForCustomerSpecification = new OrderForCustomerSpecification(x => x.CustomerID == customerId && x.OrderID == orderId);
 
             return await _orderRepository.GetAsync(orderForCustomerSpecification).ConfigureAwait(true);
         }
