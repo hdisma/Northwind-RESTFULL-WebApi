@@ -36,8 +36,8 @@ namespace Northwind.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration["connectionStrings:northwindDb"];
-
+            //var connectionString = Configuration.GetConnectionString("northwindDb");
+            var connectionString = Configuration["ConnectionStrings:northwindDb"];
 
             services.AddControllers(AppDomainSetup =>
             {
@@ -99,14 +99,15 @@ namespace Northwind.WebApi
             else
             {
                 app.UseHsts();
-                app.UseExceptionHandler((options) =>
-                {
-                    options.Run(async context => 
-                    {
-                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        await context.Response.WriteAsync("An unespected fault happened. Try again later!");
-                    });
-                });
+                //app.UseExceptionHandler((options) =>
+                //{
+                //    options.Run(async context =>
+                //    {
+                //        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                //        await context.Response.WriteAsync("An unespected fault happened. Try again later!");
+                //    });
+                //});
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();

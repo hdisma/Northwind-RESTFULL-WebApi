@@ -1,0 +1,33 @@
+version: '3'
+services:
+    sqlserver:
+        container_name: sqlserver
+        hostname: lnxsqlserver
+        build:
+            context: ./
+            dockerfile: ./sql-dockerfile/Dockerfile
+        ports: 
+            - "1434:1433"
+        environment:
+            - ACCEPT_EULA=Y
+            - MSSQL_PID=Developer
+            - MSSQL_SA_PASSWORD=ksV@2sas5&sa398r
+        entrypoint: >
+            bash -c "/sqlscripts/InitializeDatabase.sh & /opt/mssql/bin/sqlservr"
+        volumes: 
+            - database-data:/var/opt/mssql
+    northwind-api:
+        image: northwind/northwindapi:1.0
+        container_name: northwindapi
+        build:
+            context: ./
+            dockerfile: ./src/Northwind.WebApi/Dockerfile
+        depends_on:
+            - sqlserver
+        ports: 
+            - "5100:80"
+        environment: 
+            - ASPNETCORE_ENVIRONMENT=Development
+volumes: 
+    database-data:
+        external: true
